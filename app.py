@@ -9,14 +9,15 @@ warnings.filterwarnings('ignore')
 
 st.set_page_config(page_title="现货价格智能预测系统 (v3.1 - 最终修复版)", layout="wide")
 
-st.title("⚡ 现货价格智能预测系统 (v3.1)")
+
+st.title("⚡ 现货价格智能预测系统 (v1.1)")
 st.markdown("""
 **更新说明**：
-- 修复缩进错误，确保所有逻辑在 try-except 块内正常运行。
+- 使用相似日数据模型进行预测。            
 - 支持预测**未来日期**（仅有竞价空间，无现货价格）。
 - 自动区分**历史样本库**和**待预测目标**。
 """)
-
+st.subheader(f"开发者：张欢欢 _  微信：shopify999")
 # --- 侧边栏 ---
 st.sidebar.header("⚙️ 模型设置")
 uploaded_file = st.sidebar.file_uploader("上传 基础数据.xlsx", type=["xlsx"])
