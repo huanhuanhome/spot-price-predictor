@@ -1,0 +1,39 @@
+name: Build Desktop App
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'  # 根据你的需求修改版本，推荐 3.8-3.10
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pyinstaller  # 安装打包工具
+
+    - name: Build with PyInstaller
+      run: |
+        # --onefile 表示打包成单个 exe 文件
+        # --noconsole 表示运行时无黑窗口（如果是纯图形界面应用）
+        # 请将 'app.py' 替换为你程序的实际入口文件名
+        pyinstaller --onefile --noconsole app.py
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Windows-App-Build
+        path: dist/app.exe  # 生成的文件路径
