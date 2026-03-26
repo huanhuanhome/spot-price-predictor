@@ -455,9 +455,16 @@ if uploaded_file:
             opacity=0.6
         ))
 
+        # 生成刻度位置列表：0, 4, 8, ..., 96 (确保不超过数据长度)
+        tick_positions = list(range(0, 96, 4))
+        
+        # 生成对应的标签文本：将位置除以 4 (0->0, 4->1, 8->2 ...)
+        # 如果您希望从 1 开始计数 (即 4->1)，可以使用 (x//4 + 1)
+        tick_labels = [str(x // 4) for x in tick_positions] 
+
         fig.update_layout(
             title=f"{target_date.strftime('%Y-%m-%d')} 现货价格预测与回测对比",
-            xaxis=dict(title="时点 (0-95)", range=[0, 95]),
+            xaxis=dict(title="时点 (0-95),只有整点显示24小时，其他时间是按照96点显示", range=[0, 95],tickmode='array',  tickvals=tick_positions,ticktext=tick_labels,tickfont=dict(size=20), ),
             yaxis=dict(
                 title=dict(text="电价 (元/MWh)", font=dict(color="red")),
                 tickfont=dict(color="red"),
